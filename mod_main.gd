@@ -17,7 +17,7 @@ func _init():
 	# Add extensions
 	for loc in ["en" , "es" , "fr"]:
 		ModLoaderMod.add_translation(trans_dir + "translations." + loc + ".translation")
-	
+	ModLoaderMod.add_hook(update_excavator, "res://stages/loadout/MultiplayerloadoutStage.gd", "updatePlayerIds")
 	
 func _ready():
 	ModLoaderLog.info("Done", MYMODNAME_LOG)
@@ -32,6 +32,13 @@ func modInit():
 	Data.registerKeeper("excavator")
 	GameWorld.unlockElement("excavator")
 	
-	
+func update_excavator(chain:ModLoaderHookChain):
+	chain.execute_next()
+	var keepers := get_tree().get_nodes_in_group("keeper")
+	for keeper in keepers:
+		if keeper.techId == "excavator":
+			keeper.playerId = "player1"
+			Data.apply(keeper.playerId + ".excavator.maxSpeed", 150)
+			Data.apply(keeper.playerId + ".excavator.maxUpSpeed", 150)
 
 	
