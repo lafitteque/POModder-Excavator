@@ -1,0 +1,26 @@
+{
+	"name": "Excavator",
+	"namespace": "POModder",
+	"version_number": "1.0.0",
+	"description": "Adds a new keeper",
+	"website_url": "https://",
+	"dependencies": [
+		"POModder-Dependency"
+	],
+	"extra": {
+		"godot": {
+			"incompatibilities": [],
+			"authors": [
+				"PO"
+			],
+			"compatible_mod_loader_version": [
+				"6.2.0",
+				"7.0.0"
+			],
+			"compatible_game_version": [
+				"4.2.2"
+			],
+			"config_defaults": {}
+		}
+	}
+}
