@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c67gwrydn3sqa"]
+[gd_scene load_steps=5 format=3 uid="uid://cfv1c2lsnk2wg"]
 
 [ext_resource type="Script" path="res://mods-unpacked/POModder-AllYouCanMine/content/Excavator/FallHightIndicator.gd" id="1_2svb7"]
-[ext_resource type="Texture2D" uid="uid://cjp6ibcgay3s4" path="res://mods-unpacked/POModder-AllYouCanMine/images/FallHeightIndicatorBg.png" id="2_v5ymp"]
-[ext_resource type="Texture2D" uid="uid://b1jm5y0mbgdce" path="res://mods-unpacked/POModder-AllYouCanMine/images/FallHeightIndicator1.png" id="3_345yc"]
-[ext_resource type="Texture2D" uid="uid://bfqlpe504ju8h" path="res://mods-unpacked/POModder-AllYouCanMine/images/FallHeightIndicator2.png" id="4_x6tcs"]
+[ext_resource type="Texture2D" uid="uid://cjp6ibcgay3s4" path="res://mods-unpacked/POModder-Excavator/images/FallHeightIndicatorBg.png" id="2_v5ymp"]
+[ext_resource type="Texture2D" uid="uid://b1jm5y0mbgdce" path="res://mods-unpacked/POModder-Excavator/images/FallHeightIndicator1.png" id="3_345yc"]
+[ext_resource type="Texture2D" uid="uid://bfqlpe504ju8h" path="res://mods-unpacked/POModder-Excavator/images/FallHeightIndicator2.png" id="4_x6tcs"]
 
 [node name="FallHightIndicator" type="Node2D"]
 visible = false

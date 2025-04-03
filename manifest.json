@@ -4,9 +4,7 @@
 	"version_number": "1.0.0",
 	"description": "Adds a new keeper",
 	"website_url": "https://",
-	"dependencies": [
-		"POModder-Dependency"
-	],
+	"dependencies": [],
 	"extra": {
 		"godot": {
 			"incompatibilities": [],

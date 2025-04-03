@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c72nloqnhryjy"]
+[gd_scene load_steps=4 format=3 uid="uid://c72nloqnhryjy"]
 
+[ext_resource type="Script" path="res://mods-unpacked/POModder-Excavator/content/Hud/countCrusherHud.gd" id="1_s0yb7"]
 [ext_resource type="Texture2D" uid="uid://dmf2chjum6vjk" path="res://mods-unpacked/POModder-Excavator/images/UI_place_crusher_empty.png" id="2_o1i4f"]
 [ext_resource type="Texture2D" uid="uid://ib4eh2h27l64" path="res://mods-unpacked/POModder-Excavator/images/UI_place_crusher.png" id="4_3nbgo"]
 
@@ -14,6 +15,9 @@ offset_right = 8.0
 offset_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_s0yb7")
+element_size = Vector2(3, 3)
+layoutWeights = Vector2(0, 5)
 
 [node name="UiPlaceCrusherEmpty" type="Sprite2D" parent="."]
 position = Vector2(-2.6, -2.2)

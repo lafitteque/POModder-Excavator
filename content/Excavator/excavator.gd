@@ -36,20 +36,26 @@ var holdCollect = false
 var crusherPosition : Vector2 = Vector2.ZERO
 var collectCooldown := 0.0
 var maxCameraSpeed := Vector2.ZERO
-
+var keepGoingUpTime : float = 0.0
+var keepGoingUpTimeMax : float = 5.0
+var realPushingTime : float = 0.0
 
 	# params
 var prePushTime = 0.2
 var pushTimeMax = 0.8
+var pushingTimeBuff : float = 0.3
+var pushingTimeSpeedCap : float = 7.0
+var pushingTimeExplosionCap : float = 5.0
 var hightBoomBonus1 
 var hightBoomBonus2 
 var placingCrusher = false
 var maxHorizontalFallControl = 0.6
 var hasIndicator = false
 
+
 func init():
+	
 	super.init()
-	Data.listen(self, playerId + ".excavator.jetpackStage")
 	
 	$Sprite2D.frame = 0
 	focussedUsable = null
@@ -70,14 +76,14 @@ func currentSpeed() -> float:
 	
 	
 func _ready():
-	hightBoomBonus1 = Data.ofOr("excavator.boomHeight1", 300.0)
-	hightBoomBonus2 = Data.ofOr("excavator.boomHeight2", 500.0)
+	hightBoomBonus1 = Data.ofOr("excavator.boomheight1", 300.0)
+	hightBoomBonus2 = Data.ofOr("excavator.boomheight2", 500.0)
 	
 	if not (StageManager.currentStage is MultiplayerLoadoutStage):
 		$UseArea/CollisionShape2D.shape.radius = 15.0
 		
-	Data.listen(self, playerId + ".excavator.fallIndicator")
-	hasIndicator = Data.ofOr(playerId + ".excavator.fallIndicator", false)
+	Data.listen(self, playerId + ".excavator.fallindicator")
+	hasIndicator = Data.ofOr(playerId + ".excavator.fallindicator", false)
 	$FallHightIndicator.visible = hasIndicator
 
 func propertyChanged(property, oldValue, newValue):
@@ -107,7 +113,7 @@ func _physics_process(delta):
 		collectCooldown -= delta
 	
 	#### Update arrow towards crusher
-	if Data.ofOr(playerId + ".excavator.crusherCount", 1) == 0:
+	if Data.ofOr(playerId + ".excavator.crushercount", 1) == 0:
 		$ArrowTowardsCrusher.visible = true
 		$ArrowTowardsCrusher.rotation = (crusherPosition - global_position).angle()
 	else :
@@ -115,23 +121,26 @@ func _physics_process(delta):
 		
 		
 		
-	moveSlowdown *= 1.0 - delta * Data.of(playerId + ".excavator.slowdownRecovery")  * 1.0
+	moveSlowdown *= 1.0 - delta * Data.of(playerId + ".excavator.slowdownrecovery")  * 1.0
 	
 	var baseSpeed : Vector2 = Vector2.ZERO
-	var boost = Data.ofOr(playerId + ".keeper.speedBuff", 0) * (moveDirectionInput.normalized())
+	var boost = Data.ofOr(playerId + ".keeper.speedbuff", 0) * (moveDirectionInput.normalized())
 	
-	if Data.ofOr(playerId + ".keeper.speedBuff", 0) != 0 :
+	if Data.ofOr(playerId + ".keeper.speedbuff", 0) != 0 :
 		print("debut")
 		
-	baseSpeed.x  = Data.of(playerId + ".excavator.maxSpeed")
+	baseSpeed.x  = Data.of(playerId + ".excavator.maxspeed")
 	baseSpeed.x += abs(boost.x)
 	
-	if moveDirectionInput.y <= 0 :
-		baseSpeed.y = -Data.of(playerId + ".excavator.maxUpSpeed") 
+	if moveDirectionInput.y < -0.1 :
+		baseSpeed.y = -Data.of(playerId + ".excavator.maxupspeed") 
 		baseSpeed.y += boost.y
-		baseSpeed.y -= Data.ofOr(playerId + ".keeper.additionalupwardsspeed", 0) 
+		
+		keepGoingUpTime += delta
+		baseSpeed.y -= min(keepGoingUpTime/keepGoingUpTimeMax , 1.0) * Data.ofOr(playerId + ".excavator.maxupspeedboost", 0)
 	else:
-		baseSpeed.y = Data.of(playerId + ".excavator.maxDownSpeed")
+		keepGoingUpTime = 0
+		baseSpeed.y = Data.of(playerId + ".excavator.maxdownspeed")
 		
 	var yMove = move.normalized().y
 	
@@ -144,7 +153,7 @@ func _physics_process(delta):
 	# Falling
 	var forces : float = Data.of(playerId + ".excavator.gravity")
 	if prevSpeed.y >= 0 :
-		forces -=  Data.of(playerId + ".excavator.frictionFactor") * prevSpeed.y**2
+		forces -=  Data.of(playerId + ".excavator.frictionfactor") * prevSpeed.y**2
 	speed.y += forces * delta
 	
 	# Restrict x axis control while falling
@@ -157,7 +166,7 @@ func _physics_process(delta):
 		move.x *= 1 - delta * Data.of(playerId + ".excavator.deceleration")
 	
 	placingCrusher = false
-	var tryPlaceCrusher = holdCollect and Data.ofOr(playerId + ".excavator.crusherCount",0) >= 1 and global_position.y >= 10.0
+	var tryPlaceCrusher = holdCollect and Data.ofOr(playerId + ".excavator.crushercount",0) >= 1 and global_position.y >= 10.0
 	var mainlyX = abs(moveDirectionInput.y) < 0.1 and abs(moveDirectionInput.x) > 0.9
 	if tryPlaceCrusher or mainlyX:
 		if move.y >= 0 :
@@ -186,7 +195,7 @@ func _physics_process(delta):
 	else :
 		move.x = (move.x * (1 - delta * Data.of(playerId + ".excavator.deceleration"))) 
 		move += moveChange
-		move.y = min(max(move.y, -Data.of(playerId + ".excavator.maxUpSpeed")), Data.of(playerId + ".excavator.maxDownSpeed"))
+		move.y = min(max(move.y, -Data.of(playerId + ".excavator.maxupspeed")), Data.of(playerId + ".excavator.maxdownspeed"))
 	
 	
 	maxCameraSpeed = move
@@ -209,12 +218,13 @@ func _physics_process(delta):
 	
 	
 	# if the keeper is moving and the hit cooldown is at 0, check for possible hits
-	if boomHeight < Data.of(playerId + ".excavator.minBoomHeight") and hitCooldown <= 0:
+	if boomHeight < Data.of(playerId + ".excavator.minboomheight") and hitCooldown <= 0:
 		
 		#########################"
 		
-		var drillBuff = Data.of(playerId + ".keeper.drillBuff")
+		var drillBuff = Data.of(playerId + ".keeper.drillbuff")
 		if moveDirectionInput.length() == 0:
+			realPushingTime = 0.0
 			pushTime = 0.0
 			pushDirection *= 0
 		else:
@@ -223,25 +233,27 @@ func _physics_process(delta):
 			var tile = $HitTestRay.get_collider()
 			if not (tile and tile.has_meta("destructable") and tile.get_meta("destructable")):
 				pushTime = 0.0
+				realPushingTime = 0.0
 				pushDirection *= 0
 			else:
-				var directMiningDamage = Data.of(playerId + ".excavator.baseDamage")
+				var directMiningDamage = Data.of(playerId + ".excavator.basedamage")
 				if tile.hardness >= 3:
 					directMiningDamage *= Data.of(playerId + ".excavator.hardtilesmodifier")
 				var drillbuff = 1.0 + drillBuff
 				pushTime += delta * (1.0 - min(last_frame_vel.length() / 35.0, 1.0))
+				realPushingTime += delta * (1.0 - min(last_frame_vel.length() / 35.0, 1.0))
 				pushDirection = global_position - tile.global_position
 				if pushTime * drillbuff > prePushTime:
 					if not pushing:
 						pushing = true
 					move.x = 0
-				if pushTime * drillbuff > pushTimeMax:
+				if pushTime * drillbuff > pushTimeMax - min(realPushingTime / pushingTimeSpeedCap, 1.0)*pushingTimeBuff:
 					pushTime = 0.05
 					var hardnessMod = 1.0
 					if tile.hardness >= 3:
-						hardnessMod -= ((tile.hardness - 2) * Data.of(playerId + ".excavator.baseDamage")) / 4.0
+						hardnessMod -= ((tile.hardness - 2) * Data.of(playerId + ".excavator.basedamage")) / 4.0
 					if tile.hardness <= 1:
-						hardnessMod += ((2 - tile.hardness) * Data.of(playerId + ".excavator.baseDamage")) / 2.0
+						hardnessMod += ((2 - tile.hardness) * Data.of(playerId + ".excavator.basedamage")) / 2.0
 					var mod = 1.0
 					if tile.type == "iron":
 						var v = max(15, Data.ofOr("map.ironAdditionalHealth", 0))
@@ -252,17 +264,19 @@ func _physics_process(delta):
 					$TileHitSounds.hit(tile, drillbuff < 1.0, true)
 					if Options.shakeDrill:
 						InputSystem.shakeTarget(self, 20, 0.2, 8)
-					var hits_needed_to_destroy:float = float(tile.max_health) / float(Data.of(playerId + ".excavator.baseDamage"))
+					var hits_needed_to_destroy:float = float(tile.max_health) / float(Data.of(playerId + ".excavator.basedamage"))
 					emit_sparks($HitTestRay.get_collision_point(), tile, hits_needed_to_destroy)
 					var pt = $HitTestRay.get_collision_point()
-					
+					if realPushingTime > pushingTimeSpeedCap:
+						customDamageTileCircleArea(tile.global_position, 2, 0.5 * directMiningDamage * drillbuff)
+						
 	if pushTime <= 0 and pushing:
 		pushing = false
 	last_frame_vel = actualMove / delta
 		#########################
 		
 	if $CollisionDown.is_colliding():
-		if boomHeight >= Data.of(playerId + ".excavator.minBoomHeight") and boomCooldown <= 0 :
+		if boomHeight >= Data.of(playerId + ".excavator.minboomheight") and boomCooldown <= 0 :
 			boom_check()
 		
 	if $CollisionDown.is_colliding():
@@ -276,8 +290,8 @@ func _physics_process(delta):
 	if $CarryLoadSound.playing:
 		$CarryLoadSound.volume_db = min(-2, -30 + carriedCarryables.size()*50)
 	
-	var speedBuff = Data.of(playerId + ".keeper.speedBuff")
-	var drillBuff = Data.of(playerId + ".keeper.drillBuff")
+	var speedBuff = Data.of(playerId + ".keeper.speedbuff")
+	var drillBuff = Data.of(playerId + ".keeper.drillbuff")
 	if speedBuff > 0 or drillBuff > 0:
 		animationSuffix = "_buffed" if playerId == "player1" else ""
 	else:
@@ -395,14 +409,14 @@ func customDamageTileCircleArea( pos:Vector2, radius:float, damage:float, delay 
 		open = newOpen
 		
 func addCrusher():
-	if Data.ofOr(playerId + ".excavator.crusherCount", 0) < 1 :
+	if Data.ofOr(playerId + ".excavator.crushercount", 0) < 1 :
 		return 
 	var crusher = preload("res://mods-unpacked/POModder-Excavator/content/Crusher/PlacebleCrusher.tscn").instantiate()
 	Level.map.add_child(crusher)
 	crusher.global_position = global_position
 	crusher.keeperId = playerId
 	
-	Data.changeByInt(playerId + ".excavator.crusherCount", -1)
+	Data.changeByInt(playerId + ".excavator.crushercount", -1)
 	crusherPosition = crusher.global_position
 	
 	
@@ -459,7 +473,7 @@ func attachCarry(body):
 	if carriedCarryables.has(body):
 		Logger.error("Tried to attach carryable " + body.name + "although it's already carried ")
 		return
-	elif carriedCarryables.size() >= Data.of(playerId + ".excavator.maxCarry"):
+	elif carriedCarryables.size() >= Data.of(playerId + ".excavator.maxcarry"):
 		return
 		
 	body.unfocusCarry(self)
@@ -592,8 +606,8 @@ func pickup(drop):
 	
 
 func currentSpeed2() -> float:
-	var s = Data.of(playerId + ".excavator.maxSpeed")
-	s += Data.ofOr(playerId + ".keeper.speedBuff", 0)
+	var s = Data.of(playerId + ".excavator.maxspeed")
+	s += Data.ofOr(playerId + ".keeper.speedbuff", 0)
 	var yMove = move.normalized().y
 	s += Data.ofOr(playerId + ".k+eeper.additionalupwardsspeed", 0) * abs(yMove)
 	return s
@@ -611,8 +625,8 @@ func boom_check()->void:
 			return
 	
 	var dir = global_position - tile.global_position
-	var boomStrength = Data.of(playerId + ".excavator.baseDamage") * Data.of(playerId + ".excavator.boomDamageMultiplier") 
-	boomStrength +=  Data.of(playerId + ".excavator.extraDamagePerHightUnit") * boomHeight * Data.of(playerId + ".excavator.baseDamage")
+	var boomStrength = Data.of(playerId + ".excavator.basedamage") * Data.of(playerId + ".excavator.boomdamagemultiplier") 
+	boomStrength +=  Data.of(playerId + ".excavator.extradamageperhightunit") * boomHeight * Data.of(playerId + ".excavator.basedamage")
 	var radius = 2
 	if boomHeight >= hightBoomBonus1 :
 		radius += 1
@@ -627,11 +641,10 @@ func boom_check()->void:
 	if Options.shakeDrill:
 		InputSystem.shakeTarget(self, 20, 0.2, 8)
 
-	var knockback = Data.of("excavator.Speed") * Data.of("excavator.tileKnockback")
-	boomCooldown = Data.of("excavator.boomHitCooldown")
+	boomCooldown = Data.of("excavator.boomhitcooldown")
 	moveSlowdown = 0.25 + currentSpeed2() * 0.01
 	spriteLockDuration = boomCooldown
-	var drillbuff = 1.0 - float(Data.of(playerId+".keeper.drillBuff"))
+	var drillbuff = 1.0 - float(Data.of(playerId+".keeper.drillbuff"))
 	if drillbuff < 1.0:
 		boomCooldown = max(boomCooldown * drillbuff, 0.5)
 		spriteLockDuration *= drillbuff

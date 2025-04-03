@@ -6,100 +6,104 @@ excavator:
   addslots: [keepersuit, keepersupplement]
   unlockslimits: [excavator]
   propertyChanges:
-    - excavator.maxSpeed = 60
-    - excavator.maxUpSpeed = 65
-    - excavator.maxDownSpeed = 220
+    - excavator.maxspeed = 60
+    - excavator.maxupspeed = 65
+    - excavator.maxupspeedboost = 35
+    - excavator.maxdownspeed = 220
     - excavator.acceleration = 5
     - excavator.deceleration = 4
-    - excavator.slowdownRecovery = 4
-    - excavator.tileKnockback = 7
-    - excavator.tileHitCooldown = 0.35
-    - excavator.boomHitCooldown = 1.0
+    - excavator.slowdownrecovery = 4
+    - excavator.tileknockback = 7
+    - excavator.tilehitcooldown = 0.35
+    - excavator.boomhitcooldown = 1.0
     - excavator.hardtilesmodifier = 1.0
     - excavator.destroyindestructibletiles = false/h
-    - excavator.baseDamage = 3.0
-    - excavator.boomDamageMultiplier = 2.0
-    - excavator.extraDamagePerHightUnit = 0.005
-    - excavator.boostUpIntensity = 50.0
-    - excavator.minBoomHeight = 140.0
-    - excavator.gravity = 2100.0
-    - excavator.frictionFactor = 0.005
-    - excavator.maxCarry = 2
-    - excavator.crusherCount = 1
-    - excavator.fillRatio = 1.0
-    - excavator.boomHeight1 = 280.0
-    - excavator.boomHeight2 = 460.0
-    - excavator.fallIndicator = false
+    - excavator.basedamage = 3.0
+    - excavator.boomdamagemultiplier = 3.0
+    - excavator.extradamageperhightunit = 0.005
+    - excavator.boostupintensity = 50.0
+    - excavator.minboomheight = 100.0
+    - excavator.gravity = 2500.0
+    - excavator.frictionfactor = 0.005
+    - excavator.maxcarry = 2
+    - excavator.crushercount = 1
+    - excavator.fillratio = 1.0
+    - excavator.boomheight1 = 280.0
+    - excavator.boomheight2 = 460.0
+    - excavator.fallindicator = false
     - excavator.hardtilesmodifier = 1.0
 excavatorFallIndicator:
   cost: iron=1 , water=1
   propertyChanges:
-    - excavator.fallIndicator = true
+    - excavator.fallindicator = true
   predecessors: [excavator]
 excavatorSpeedUp1:
   cost: iron=6
   propertyChanges: 
-    - excavator.maxUpSpeed += 7
+    - excavator.maxupspeed += 7
+    - excavator.maxupspeedboost += 10
   predecessors: [excavator]
 excavatorSpeedUp2:
   cost: iron=12
   propertyChanges: 
-    - excavator.maxUpSpeed += 7
+    - excavator.maxupspeed += 7
+    - excavator.maxupspeedboost += 10
   repeatable:
     - cost.iron += 6
-    - property.excavator.maxUpSpeed += 15
+    - property.excavator.maxupspeed += 15
     - times = 5
+    - excavator.maxupspeedboost -= 3
   predecessors: [excavatorSpeedUp1]
 excavatorLateralSpeed1:
   cost: iron=4
   propertyChanges: 
-    - excavator.maxSpeed += 20
+    - excavator.maxspeed += 20
   predecessors: [excavator]
 excavatorLateralSpeed2:
   cost: iron=12
   propertyChanges: 
-    - excavator.maxSpeed += 40
+    - excavator.maxspeed += 40
   repeatable:
     - cost.iron += 10
-    - property.excavator.maxUpSpeed += 20
+    - property.excavator.maxspeed += 20
     - times = 2
   predecessors: [excavatorLateralSpeed1]
 excavatorCarrySpace1:
   cost: iron=8
   propertyChanges: 
-    - excavator.maxCarry += 2
+    - excavator.maxcarry += 2
   predecessors: [excavator]
 excavatorCarrySpace2:
   cost: iron=16
   propertyChanges: 
-    - excavator.maxCarry += 2
+    - excavator.maxcarry += 2
   predecessors: [excavatorCarrySpace1]
 excavatorDamage1:
-  cost: iron=4
+  cost: iron=3
   propertyChanges: 
-    - excavator.baseDamage *= 2
-    - excavator.baseDamage += 1
+    - excavator.basedamage *= 2
+    - excavator.basedamage += 1
     - excavator.hardtilesmodifier += 0.1
   predecessors: [excavator]
 excavatorDamage2:
-  cost: iron=9
+  cost: iron=8
   propertyChanges: 
-    - excavator.baseDamage *= 2
-    - excavator.baseDamage += 2
+    - excavator.basedamage *= 2
+    - excavator.basedamage += 2
     - excavator.hardtilesmodifier += 0.1
   predecessors: [excavatorDamage1]
 excavatorDamage3:
-  cost: iron=14
+  cost: iron=12
   repeatable:
     - times = 6
     - cost.iron += 10
-    - property.excavator.baseDamage *= 2.0
-    - property.excavator.baseDamage += 5
+    - property.excavator.basedamage *= 2.0
+    - property.excavator.basedamage += 5
     - excavator.hardtilesmodifier += 0.1
   propertyChanges: 
-    - excavator.baseDamage *= 2
+    - excavator.basedamage *= 2
     - excavator.hardtilesmodifier += 0.1
-    - excavator.baseDamage += 5
+    - excavator.basedamage += 5
   predecessors: [excavatorDamage2]
 
 
