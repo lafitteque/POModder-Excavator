@@ -14,6 +14,7 @@ func _ready():
 	$UiPlaceCrusher.region_rect.position.y = 14 - rel
 	$UiPlaceCrusher.position.y =  originY +  $UiPlaceCrusher.region_rect.position.y
 	Data.listen(self, keeperId + ".excavator.fillRatio") #playerId + ".excavator.crusherFillRatio")
+	Style.init(self)
 	
 func propertyChanged(property:String, oldValue, newValue):
 	var crusherFilling = keeperId + ".excavator.fillratio" #playerId + ".excavator.fillRatio"

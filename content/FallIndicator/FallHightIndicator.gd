@@ -14,7 +14,7 @@ func _ready():
 	level2 = Data.ofOr(keeperId + ".excavator.boomHeight2", 500.0)
 	level1bar = $Background/Level1
 	level2bar = $Background/Level2
-
+	Style.init(self)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

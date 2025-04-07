@@ -82,12 +82,15 @@ func _ready():
 	if not (StageManager.currentStage is MultiplayerLoadoutStage):
 		$UseArea/CollisionShape2D.shape.radius = 15.0
 		
+	await get_tree().create_timer(1.0).timeout 
+	
 	Data.listen(self, playerId + ".excavator.fallindicator")
 	hasIndicator = Data.ofOr(playerId + ".excavator.fallindicator", false)
 	$FallHightIndicator.visible = hasIndicator
 
 func propertyChanged(property, oldValue, newValue):
 	var fallVisible = playerId + ".excavator.fallindicator"
+	print("expected :",  fallVisible , " ; recieved : ", property)
 	match property:
 		fallVisible:
 			hasIndicator = true
@@ -119,7 +122,8 @@ func _physics_process(delta):
 	else :
 		$ArrowTowardsCrusher.visible = false
 		
-		
+	#if Data.ofOr(playerId + ".excavator.fallindicator", false):
+	#	$FallHightIndicator.visible = true
 		
 	moveSlowdown *= 1.0 - delta * Data.of(playerId + ".excavator.slowdownrecovery")  * 1.0
 	
