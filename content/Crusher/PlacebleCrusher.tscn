@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://dglni6iua4wm6"]
+[gd_scene load_steps=14 format=3 uid="uid://d3qthguogmwge"]
 
-[ext_resource type="Script" path="res://mods-unpacked/POModder-AllYouCanMine/content/Excavator/PlacebleCrusher.gd" id="1_w3066"]
-[ext_resource type="Texture2D" uid="uid://ddegyenh6dscb" path="res://mods-unpacked/POModder-AllYouCanMine/images/placebleCrusher.png" id="2_ax1me"]
+[ext_resource type="Script" path="res://mods-unpacked/POModder-Excavator/content/Crusher/PlacebleCrusher.gd" id="1_0204l"]
+[ext_resource type="Texture2D" uid="uid://ddegyenh6dscb" path="res://mods-unpacked/POModder-Excavator/images/placebleCrusher.png" id="2_ax1me"]
 [ext_resource type="PackedScene" path="res://systems/audio/Sound.tscn" id="4"]
 [ext_resource type="AudioStream" uid="uid://g6cg4bul73qo" path="res://content/sounds/monster/Shifter_amb.wav" id="5"]
 
@@ -76,7 +76,7 @@ radius = 10.198
 
 [node name="PlacebleCrusher" type="Node2D" groups=["cave", "saveable", "unstyled"]]
 texture_filter = 1
-script = ExtResource("1_w3066")
+script = ExtResource("1_0204l")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)

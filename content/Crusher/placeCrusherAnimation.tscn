@@ -1,8 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://by203sf4vel1"]
+[gd_scene load_steps=11 format=3 uid="uid://ws2f2knkrf4f"]
 
-[ext_resource type="AudioStream" uid="uid://5x63kx4l25cy" path="res://mods-unpacked/POModder-AllYouCanMine/sound/placeCrusher.wav" id="1_ionea"]
+[ext_resource type="AudioStream" uid="uid://5x63kx4l25cy" path="res://mods-unpacked/POModder-Excavator/sound/placeCrusher.wav" id="1_ionea"]
 [ext_resource type="Texture2D" uid="uid://bj7ps2a71u4bl" path="res://content/weapons/artillery/artydome_ball3_cog.png" id="1_vtg1p"]
-[ext_resource type="Texture2D" uid="uid://dpiry4lmwdv88" path="res://mods-unpacked/POModder-AllYouCanMine/images/screw.png" id="2_48cel"]
+[ext_resource type="Texture2D" uid="uid://dpiry4lmwdv88" path="res://mods-unpacked/POModder-Excavator/images/screw.png" id="2_48cel"]
 [ext_resource type="SpriteFrames" uid="uid://brdwjnedywwft" path="res://content/gadgets/repellent/Repellent_Cloud_frames.tres" id="3_ugo3s"]
 [ext_resource type="Script" path="res://mods-unpacked/POModder-AllYouCanMine/content/Excavator/cloud.gd" id="4_mx5ac"]
 [ext_resource type="Script" path="res://systems/audio/Sound.gd" id="6_d25yh"]

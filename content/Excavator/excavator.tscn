@@ -25,8 +25,8 @@
 [ext_resource type="AudioStream" uid="uid://08fn1pep6du6" path="res://content/sounds/keeper1/jetpacktest_2.wav" id="23_q32u2"]
 [ext_resource type="AudioStream" uid="uid://cywfmlnqixtok" path="res://content/sounds/keeper1/MovementLoop_01.wav" id="24_3xnp2"]
 [ext_resource type="AudioStream" uid="uid://dcudgl18wog28" path="res://content/sounds/keeper1/CarryLoad.wav" id="25_renil"]
-[ext_resource type="PackedScene" path="res://mods-unpacked/POModder-Excavator/content/FallIndicator/FallHightIndicator.tscn" id="26_wp6pj"]
-[ext_resource type="PackedScene" path="res://mods-unpacked/POModder-Excavator/content/Crusher/placeCrusherAnimation.tscn" id="27_jvgsp"]
+[ext_resource type="PackedScene" uid="uid://cfv1c2lsnk2wg" path="res://mods-unpacked/POModder-Excavator/content/FallIndicator/FallHightIndicator.tscn" id="26_wp6pj"]
+[ext_resource type="PackedScene" uid="uid://ws2f2knkrf4f" path="res://mods-unpacked/POModder-Excavator/content/Crusher/placeCrusherAnimation.tscn" id="27_jvgsp"]
 [ext_resource type="AudioStream" uid="uid://c3rndp7anixt3" path="res://mods-unpacked/POModder-Excavator/sound/fall.wav" id="28_sn1bb"]
 [ext_resource type="Script" path="res://systems/audio/Sound.gd" id="29_dctrj"]
 
