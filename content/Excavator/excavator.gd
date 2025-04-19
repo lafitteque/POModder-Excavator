@@ -79,7 +79,7 @@ func _ready():
 	hightBoomBonus1 = Data.ofOr("excavator.boomheight1", 300.0)
 	hightBoomBonus2 = Data.ofOr("excavator.boomheight2", 500.0)
 	
-	if not (StageManager.currentStage is MultiplayerLoadoutStage):
+	if not (StageManager.currentStage.name == "MultiplayerLoadoutStage"):
 		$UseArea/CollisionShape2D.shape.radius = 15.0
 		
 	await get_tree().create_timer(1.0).timeout 
@@ -352,7 +352,7 @@ func _physics_process(delta):
 			if not $MoveSound.shouldPlay:
 				moveStartSoundPlayBuffer += delta
 				if moveStartSoundPlayBuffer >= 0.1:
-					$MoveSound.play()
+
 					$CarryLoadSound.play()
 					$MoveStartSound.play()
 					moveStartSoundPlayBuffer = 0
@@ -365,9 +365,12 @@ func _physics_process(delta):
 	if $CollisionDown.is_colliding() or move.y <= 0 or xAxisControl or moveDirectionInput.y < -0.1 :
 		boomHeight = 0.0
 		$FallSound.stop()
+		$Sprite2D.flip_v = false
 	else :
 		if ! $FallSound.playing:
 			$FallSound.play()
+		if boomHeight > 50 : 
+			$Sprite2D.flip_v = true
 		boomHeight += actualMove.y
 
 		
