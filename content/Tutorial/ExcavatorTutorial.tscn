@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://d388vh8ymx6xo"]
 
 [ext_resource type="Theme" path="res://gui/theme.tres" id="1_pcnqn"]
-[ext_resource type="Script" path="res://mods-unpacked/POModder-Excavator/content/Tutorial/ExcavatorTutorial.gd" id="2_rf24o"]
+[ext_resource type="Script" path="res://mods-unpacked/POModder-Excavator/content/Tutorial/ExcavatorTutorial.gd" id="2_mbh7f"]
 [ext_resource type="FontVariation" path="res://gui/fonts/FontHeading.tres" id="3_drkll"]
 [ext_resource type="LabelSettings" uid="uid://c4kr8k5vslhx2" path="res://gui/fontsettings/HeadingFontSettings.tres" id="4_1iucs"]
 [ext_resource type="VideoStream" path="res://mods-unpacked/POModder-Excavator/videos/Excavator Boom.ogv" id="5_w7kqu"]
@@ -19,10 +19,8 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_pcnqn")
-script = ExtResource("2_rf24o")
+script = ExtResource("2_mbh7f")
 isFullscreen = true
-moveOutAfter = -1.0
-moveInDelay = 1.0
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2

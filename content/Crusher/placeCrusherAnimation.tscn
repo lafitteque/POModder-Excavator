@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://ws2f2knkrf4f"]
+[gd_scene load_steps=11 format=3 uid="uid://by203sf4vel1"]
 
 [ext_resource type="AudioStream" uid="uid://5x63kx4l25cy" path="res://mods-unpacked/POModder-Excavator/sound/placeCrusher.wav" id="1_ionea"]
 [ext_resource type="Texture2D" uid="uid://bj7ps2a71u4bl" path="res://content/weapons/artillery/artydome_ball3_cog.png" id="1_vtg1p"]
 [ext_resource type="Texture2D" uid="uid://dpiry4lmwdv88" path="res://mods-unpacked/POModder-Excavator/images/screw.png" id="2_48cel"]
 [ext_resource type="SpriteFrames" uid="uid://brdwjnedywwft" path="res://content/gadgets/repellent/Repellent_Cloud_frames.tres" id="3_ugo3s"]
-[ext_resource type="Script" path="res://mods-unpacked/POModder-AllYouCanMine/content/Excavator/cloud.gd" id="4_mx5ac"]
+[ext_resource type="Script" path="res://mods-unpacked/POModder-Excavator/content/Crusher/cloud.gd" id="5_am05p"]
 [ext_resource type="Script" path="res://systems/audio/Sound.gd" id="6_d25yh"]
 
 [sub_resource type="Animation" id="Animation_swi6r"]
@@ -618,6 +618,7 @@ texture = ExtResource("1_vtg1p")
 [node name="cog4" type="Sprite2D" parent="cogs"]
 visible = false
 z_index = 10
+position = Vector2(-17, 25)
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("1_vtg1p")
 
@@ -640,6 +641,7 @@ texture = ExtResource("2_48cel")
 
 [node name="screw4" type="Sprite2D" parent="screws"]
 visible = false
+position = Vector2(-5, -25)
 texture = ExtResource("2_48cel")
 
 [node name="Node" type="Node2D" parent="."]
@@ -648,21 +650,23 @@ texture = ExtResource("2_48cel")
 position = Vector2(-7, -8)
 sprite_frames = ExtResource("3_ugo3s")
 animation = &"spray"
-script = ExtResource("4_mx5ac")
+frame = 13
+frame_progress = 1.0
+script = ExtResource("5_am05p")
 
 [node name="cloud2" type="AnimatedSprite2D" parent="Node"]
 position = Vector2(24, 1)
 rotation = 1.85005
 sprite_frames = ExtResource("3_ugo3s")
 animation = &"empty"
-script = ExtResource("4_mx5ac")
+script = ExtResource("5_am05p")
 
 [node name="cloud3" type="AnimatedSprite2D" parent="Node"]
 position = Vector2(2, 17)
 rotation = 2.9339
 sprite_frames = ExtResource("3_ugo3s")
 animation = &"empty"
-script = ExtResource("4_mx5ac")
+script = ExtResource("5_am05p")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 mix_target = 2

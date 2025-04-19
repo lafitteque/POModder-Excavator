@@ -12,6 +12,7 @@ func _init():
 	excavator = preload("res://mods-unpacked/POModder-Excavator/content/Excavator/excavator.tscn")
 	excavator.take_over_path("res://content/keeper/excavator/Excavator.tscn")
 	
+	
 		## Excavator Icons
 	var excavator_icon = preload("res://mods-unpacked/POModder-Excavator/images/excavator_icon.png")
 	excavator_icon.take_over_path("res://content/icons/loadout_excavator-skin0.png")

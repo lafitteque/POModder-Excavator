@@ -32,6 +32,7 @@ func modInit():
 	Data.registerKeeper("excavator")
 	GameWorld.unlockElement("excavator")
 	
+	
 func update_excavator(chain:ModLoaderHookChain):
 	chain.execute_next()
 	var keepers := get_tree().get_nodes_in_group("keeper")
