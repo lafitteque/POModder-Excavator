@@ -49,3 +49,10 @@ level.tutorial.excavator.carry.desc31,Hold,Maintenir,Mantener
 level.tutorial.excavator.carry.desc12,"to use trees, caves, dome, …).","pour interagir avec les arbres, le dôme, …)","para interactuar con los arboles, la cúpula, …"
 level.tutorial.excavator.carry.desc22,to detach resources.,pour détacher les ressources.,para dejar los recursos en el suelo.
 level.tutorial.excavator.carry.desc32,to create a shredder (will disapear and be reusable after beeing fed enough resources).,pour créer un concasseur (disparaît et devient réutilisable une fois qu’on lui a donné suffisamment de ressources),para crear una trituradora (desaparece y se puede volver a usar cuando se le han dado sufientes recursos)
+,,,
+,,,
+,,,
+properties.excavator.maxspeed,Horizontal speed : {},Vitesse horizontale : {},
+properties.excavator.maxupspeed,Upwards speed : {},Vitesse vers le haut : {},
+properties.excavator.maxcarry,Carry lines : {},Lignes d’attache : {},
+properties.excavator.basedamage,Damage : {},Dégats : {},
