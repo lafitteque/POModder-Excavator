@@ -19,6 +19,7 @@ func _init():
 		ModLoaderMod.add_translation(trans_dir + "translations." + loc + ".translation")
 	ModLoaderMod.add_hook(update_excavator, "res://stages/loadout/MultiplayerloadoutStage.gd", "updatePlayerIds")
 	
+	
 func _ready():
 	ModLoaderLog.info("Done", MYMODNAME_LOG)
 	add_to_group("mod_init")
@@ -41,5 +42,3 @@ func update_excavator(chain:ModLoaderHookChain):
 			keeper.playerId = "player1"
 			Data.apply(keeper.playerId + ".excavator.maxSpeed", 150)
 			Data.apply(keeper.playerId + ".excavator.maxUpSpeed", 150)
-
-	
